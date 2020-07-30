@@ -10,6 +10,82 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+let empIdCount = 1
+const empArray = []
+
+const questions = [
+    {
+        type: 'list',
+        name: 'addEmpType',
+        choices: ['Manager', 'Engineer', 'Intern']
+    },
+    {
+        type: 'input',
+        name: 'empName',
+        message: 'Enter full name: '
+    },
+    {
+        type: 'input',
+        name: 'empEmail',
+        message: 'Enter employee email: '
+    }
+]
+
+function rerun() {
+    inquirer.prompt({
+        type: 'list',
+        name: 'addAdditional',
+        choices: ['Y', 'N']
+    }).then((resp) => {
+        if (resp.addAdditional === 'Y') {
+            addEmp()
+        } else {
+            console.log(empArray)
+            console.log('run render function')
+        }
+    });
+};
+
+function addEmp() {
+    inquirer.prompt(questions).then((answers) => {
+        if (answers.addEmpType === 'Manager') {
+            inquirer.prompt({
+                type: 'input',
+                name: 'officeNumber',
+                message: 'Employee office number: '
+            }).then((data) => {
+                answers.officeNumber = data.officeNumber
+                empArray.push(new Manager(answers.empName, empIdCount, answers.empEmail, answers.officeNumber))
+                empIdCount++
+                rerun()
+            })
+        } else if (answers.addEmpType === 'Engineer') {
+            inquirer.prompt({
+                type: 'input',
+                name: 'github',
+                message: 'Employee GitHub account: '
+            }).then((data) => {
+                answers.github = data.github
+                empArray.push(new Engineer(answers.empName, empIdCount, answers.empEmail, answers.github))
+                empIdCount++
+                rerun()
+            })
+        } else if (answers.addEmpType === 'Intern') {
+            inquirer.prompt({
+                type: 'input',
+                name: 'school',
+                message: 'Student school: '
+            }).then((data) => {
+                answers.school = data.school
+                empArray.push(new Intern(answers.empName, empIdCount, answers.empEmail, answers.school))
+                empIdCount++
+                rerun()
+            })
+        };
+    });
+};
+
+addEmp()
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
