@@ -8,7 +8,7 @@ class Engineer extends Employee {
         this.github = github
     }
 
-    getGitHub() {
+    getGithub() {
         return this.github
     }
     
@@ -19,5 +19,5 @@ class Engineer extends Employee {
 
 const newEng = new Engineer('Gary', 1, 'gary@gmail.com', 'grburner@git')
 
-console.log(newEng.getEmail())
-//console.log(newEng.getId())
+
+module.exports = Engineer;
