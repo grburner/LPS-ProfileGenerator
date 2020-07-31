@@ -40,8 +40,8 @@ function rerun() {
         if (resp.addAdditional === 'Y') {
             addEmp()
         } else {
-            console.log(empArray)
-            console.log('run render function')
+            let htmlBlock = render(empArray)
+            fs.writeFileSync(("./output/team.html"), htmlBlock)
         }
     });
 };
