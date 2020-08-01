@@ -44,10 +44,11 @@ function rerun() {
             if (managerInc === false) {
                 console.log('Please add a manager!')
                 rerun()
+            } else {
+                let htmlBlock = render(empArray)
+                fs.writeFileSync(("./output/team.html"), htmlBlock)
+                console.log('HTML generated!')
             }
-            let htmlBlock = render(empArray)
-            fs.writeFileSync(("./output/team.html"), htmlBlock)
-            console.log('HTML generated!')
         }
     });
 };
