@@ -12,6 +12,7 @@ const render = require("./lib/htmlRenderer");
 
 let empIdCount = 1
 const empArray = []
+let managerInc = false
 
 const questions = [
     {
@@ -40,8 +41,13 @@ function rerun() {
         if (resp.addAdditional === 'Y') {
             addEmp()
         } else {
+            if (managerInc === false) {
+                console.log('Please add a manager!')
+                rerun()
+            }
             let htmlBlock = render(empArray)
             fs.writeFileSync(("./output/team.html"), htmlBlock)
+            console.log('HTML generated!')
         }
     });
 };
@@ -57,6 +63,7 @@ function addEmp() {
                 answers.officeNumber = data.officeNumber
                 empArray.push(new Manager(answers.empName, empIdCount, answers.empEmail, answers.officeNumber))
                 empIdCount++
+                managerInc = true
                 rerun()
             })
         } else if (answers.addEmpType === 'Engineer') {
